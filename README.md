@@ -31,7 +31,7 @@ What things you need to install the software and how to install them:
     docker-compose up -d
     ```
 
-2. Use docker-compose to add web services to the docker engine as needed, e.g.:
+2. Use docker-compose to add web services to the network as needed, e.g.:
 
     ```
     version: '2'
