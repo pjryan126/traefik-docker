@@ -1,4 +1,4 @@
-FROM traefik:1.3.5
+FROM traefik:latest
 MAINTAINER Patrick Ryan <pjryan126@gmail.com>
 
 ADD traefik.toml .

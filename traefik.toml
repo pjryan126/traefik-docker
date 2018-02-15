@@ -1,5 +1,8 @@
 # defaultEntryPoints must be at the top because it should not be in any table below
-defaultEntryPoints = ["http", "https"]
+debug = false
+checkNewVersion = true
+logLevel = "DEBUG"
+defaultEntryPoints = ["https","http"]
 
 [web]
 # Port for the status page
@@ -22,13 +25,17 @@ address = ":8080"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "traefik-example.co"
+domain = "traefik.com"
 watch = true
 exposedbydefault = false
 
 # Enable ACME (Let's Encrypt): automatic SSL
 [acme]
-email = "letsencrypt@traefik-example.co"
+OnHostRule = true
+email = "letsencrypt@dev.com"
 storage = "acme.json"
 entryPoint = "https"
-OnHostRule = true
+[acme.httpChallenge]
+  entryPoint = "http"
+
+
