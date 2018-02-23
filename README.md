@@ -18,55 +18,59 @@ What things you need to install the software and how to install them:
 
 1. Download the repository.
 
-    ```
-    git clone https://github.com/pjryan126/traefik-docker.git
-    cd traefik-docker
-    ```
+        git clone https://github.com/pjryan126/traefik-docker.git
+        cd traefik-docker
 
 
-1. Create a network and run the container.
+1. Create a network
 
-    ```
-    docker network create web
-    docker-compose up -d
-    ```
+        docker network create web
 
-2. Use docker-compose to add web services to the network as needed, e.g.:
+1. Build and run the container
 
-    ```
-    version: '2'
+        # For http only:
+        docker-compose -f docker-compose.http.yml build
+        docker-compose up -d
 
-    services:
-      server:
-        restart: always
-        build: ./server
-        expose:
-          - "5000"
-        labels:
-          - "traefik.enable=true"
-          - "traefik.backend=server:5000"
-          - "traefik.frontend.rule=Host:api.server.com"
+        # For automatic https redirects:
+        docker-compose -f docker-compose.https.yml build
+        docker-compose up -d
+
+
+1. Use docker-compose to add web services to the network as needed, e.g.:
+
+        version: '2'
+
+        services:
+          server:
+            restart: always
+            build: ./server
+            expose:
+              - "5000"
+            labels:
+              - "traefik.enable=true"
+              - "traefik.backend=server:5000"
+              - "traefik.frontend.rule=Host:api.server.com"
+            networks:
+            - web
+            - default
+            command: /usr/local/bin/gunicorn -w 2 -b :5000 wsgi:app
+          client:
+            restart: always
+            build: ./client
+            expose:
+              - "4200"
+            labels:
+              - "traefik.enable=true"
+              - "traefik.backend=client:4200"
+              - "traefik.frontend.rule=Host:client.com"
+            networks:
+              - web
+              - default
+
         networks:
-        - web
-        - default
-        command: /usr/local/bin/gunicorn -w 2 -b :5000 wsgi:app
-      client:
-        restart: always
-        build: ./client
-        expose:
-          - "4200"
-        labels:
-          - "traefik.enable=true"
-          - "traefik.backend=client:4200"
-          - "traefik.frontend.rule=Host:client.com"
-        networks:
-          - web
-          - default
-
-    networks:
-      web:
-        external: true
-    ```
+          web:
+            external: true
 
 ## Built With
 

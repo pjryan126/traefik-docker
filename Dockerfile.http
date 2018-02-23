@@ -1,0 +1,4 @@
+FROM traefik:latest
+MAINTAINER Patrick Ryan <pjryan126@gmail.com>
+
+COPY traefik.http.toml ./traefik.toml

@@ -1,0 +1,24 @@
+# defaultEntryPoints must be at the top because it should not be in any table below
+debug = false
+checkNewVersion = true
+logLevel = "DEBUG"
+defaultEntryPoints = ["http"]
+
+[web]
+# Port for the status page
+address = ":8080"
+
+# Entrypoints, http only
+[entryPoints]
+
+    [entryPoints.http]
+    address = ":80"
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "traefik.com"
+watch = true
+exposedbydefault = false
+
