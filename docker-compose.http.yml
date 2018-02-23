@@ -3,7 +3,7 @@ version: '2'
 services:
   traefik:
     build:
-      context: .
+      context: ./http
       dockerfile: Dockerfile.http
     container_name: traefik
     ports:
